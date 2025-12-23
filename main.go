@@ -7,8 +7,8 @@ import (
 
 func main() {
 	var conferenceName = "Go-conference"
-	const conferenceTickets int = 50
-	var availableTicket int = 50
+	const conferenceTickets uint = 50
+	var availableTicket uint = 50
 	var bookings []string
 
 	// fmt.Printf("welcome to %v booking application\n", conferenceName)
@@ -87,7 +87,7 @@ func getUserDetails() (string, string, string, int) {
 	return firstName, lastName, email, ticketNumber
 
 }
-func bookTicket(availableTicket int, ticketNumber int, bookings []string, firstName string, lastName string, conferenceName string, email string) ([]string, int) {
+func bookTicket(availableTicket uint, ticketNumber uint, bookings []string, firstName string, lastName string, conferenceName string, email string) ([]string, uint) {
 	availableTicket = availableTicket - ticketNumber
 	// bookings[0]= firstName+" "+lastName
 
