@@ -3,6 +3,8 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"sync"
+	"time"
 )
 	var conferenceName string = "Go-conference"
 	const conferenceTickets uint = 50
@@ -17,12 +19,12 @@ import (
 		numberOfTickets uint
 	}
 
+	var wg = sync.WaitGroup{}
+
 func main() {
 	
 
 	greetUsers()
-
-	for {
 		// user details
 		firstName,lastName,email,userTickets := getUserDetails()
 
@@ -34,16 +36,19 @@ func main() {
 
 		if isValidUserTickets && isValidEmail && isValidName {
 			bookTickets(userTickets,firstName,lastName,email)
-			printTickets(userTickets,firstName, lastName, email)
 
-			// print first names
+		// print sent tickets
+			wg.Add(1)
+			go printTickets(userTickets,firstName, lastName, email)
+
+		// print first names
 			firstNames := getFirstName()
 			fmt.Printf("This are the first names for all our bookings %v \n", firstNames)
 
 		
 			if remainingTickets == 0 {
 				fmt.Println("Our conference Tickets is booked out, kindly come back nect year!!")
-				break
+				//break
 			}
 
 		} else {
@@ -56,9 +61,9 @@ func main() {
 			if !isValidUserTickets{
 				fmt.Println("Your ticket number is either too low and above number of ticket available")
 			}
-			continue
+			//continue
 		}
-	}
+	wg.Wait()
 
 }
 
@@ -109,10 +114,12 @@ func bookTickets(userTickets uint,firstName string, lastName string, email strin
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
 func printTickets(userTickets uint,firstName string,lastName string, email string){
+	time.Sleep(10 * time.Second)
 	fmt.Println("###################")
-	var tickets = fmt.Sprintf("Sending %v tickets for %v %v to %v\n",userTickets,firstName,lastName,email)
+	var tickets = fmt.Sprintf("Sent %v tickets for %v %v to %v\n",userTickets,firstName,lastName,email)
 	fmt.Printf("%v SENT!!!\n",tickets)
 	fmt.Println("###################")
+	wg.Done()
 }
 
 
