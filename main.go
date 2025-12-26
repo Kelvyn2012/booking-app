@@ -34,6 +34,7 @@ func main() {
 
 		if isValidUserTickets && isValidEmail && isValidName {
 			bookTickets(userTickets,firstName,lastName,email)
+			printTickets(userTickets,firstName, lastName, email)
 
 			// print first names
 			firstNames := getFirstName()
@@ -106,6 +107,12 @@ func bookTickets(userTickets uint,firstName string, lastName string, email strin
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+}
+func printTickets(userTickets uint,firstName string,lastName string, email string){
+	fmt.Println("###################")
+	var tickets = fmt.Sprintf("Sending %v tickets for %v %v to %v\n",userTickets,firstName,lastName,email)
+	fmt.Printf("%v SENT!!!\n",tickets)
+	fmt.Println("###################")
 }
 
 
